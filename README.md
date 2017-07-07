@@ -1,6 +1,7 @@
 # Project
 Machine Learning Using Books
 
+
 # Data Minning - Creating a books dataset
 ## Download 4 different books from the internet:
 
@@ -17,7 +18,7 @@ urllib.urlretrieve("http://m.uploadedit.com/ba3s/1497950434984.txt", "data\Dream
 
 
 
-    ('data\\The Dreamer.txt', <httplib.HTTPMessage instance at 0x037AE418>)
+    ('data\\Dreamer.txt', <httplib.HTTPMessage instance at 0x026C6260>)
 
 
 
@@ -31,6 +32,7 @@ urllib.urlretrieve("http://m.uploadedit.com/ba3s/1497950434984.txt", "data\Dream
 import pandas as pd
 import string
 from nltk.corpus import stopwords
+import nltk
 import matplotlib.pyplot as plt
 import numpy as np
 #read the text books int data frames
@@ -157,3 +159,108 @@ plt.show()
 
 
 
+
+## Part 2 - modelling the data
+in this part we will try to build the best predictive model that by a given sentence will output the book it more likely came from
+we spilt the data into 80% train and 20% test and check the accuracy in different models
+
+Fisrt, we convert our data to a bag of words representation
+
+
+```python
+from sklearn.feature_extraction.text import CountVectorizer
+vectorizer = CountVectorizer(analyzer = "word",
+                             tokenizer = None,
+                             preprocessor = None,
+                             stop_words = None,
+                             max_features = 5000)
+train_data_features = vectorizer.fit_transform(df[0])
+train_data_features = train_data_features.toarray()
+```
+
+Next, we split the data into 80% training and 20% test sets
+
+
+```python
+from sklearn.ensemble import RandomForestClassifier
+from sklearn import svm 
+from sklearn import neighbors 
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.linear_model import LogisticRegression
+#split to train and test
+np.random.seed(123)
+x = np.random.rand(len(df[0])) < 0.8
+train_x = train_data_features[x]
+test_x = train_data_features[~x]
+train_y = df.loc[x, 1]
+test_y = df.loc[~x, 1]
+```
+
+Now we build different predictive models for our data (this step takes some time to run and on some computers will throw memory error)
+
+
+```python
+#randomForset
+forest = RandomForestClassifier(n_estimators=100) 
+model = forest.fit(train_x, train_y)
+forestScore = model.score(test_x, test_y)
+print("RandomForestClassifier: {}".format(forestScore))
+#Logistic Regression Model
+reg = LogisticRegression()
+reg.fit(train_x, train_y)
+regScore = reg.score(test_x, test_y)
+print("LogisticRegression: {}".format(regScore))
+svm1 = svm.LinearSVC()
+SVMModel = svm1.fit(train_x, train_y)
+SVMScore = SVMModel.score(test_x, test_y)
+print("SVM: {}".format(SVMScore))
+#KNN Model
+knn = neighbors.KNeighborsClassifier(3) 
+knn.fit(train_x, train_y)
+KNNScore = knn.score(test_x, test_y)
+print("KNN Classifier: {}".format(KNNScore))
+#Descision Tree Classifier
+tree = DecisionTreeClassifier()
+tree.fit(train_x, train_y)
+treeScore = tree.score(test_x, test_y)
+print("DecisionTreeClassifier: {}".format(treeScore))
+results = [forestScore, regScore, SVMScore, KNNScore, treeScore]
+```
+
+    RandomForestClassifier: 0.894337419731
+    LogisticRegression: 0.942790426153
+    SVM: 0.936368943374
+    KNN Classifier: 0.805020431991
+    DecisionTreeClassifier: 0.862813776999
+    
+
+Now we can plot each model results in order to visuallize the best one
+
+
+```python
+import matplotlib.pyplot as plt
+fig, ax = plt.subplots()
+ax.set_ylabel('Scores')
+ax.set_title('Scores by Model')
+index = np.arange(5)
+plt.bar(index, results, alpha=0.4, color='r', label='Model')
+ax.set_xticklabels(('G1', 'RandomForest', 'LogisticReg', 'SVM', 'KNN', 'DecisionTree'))
+plt.tight_layout()
+plt.show()
+```
+
+
+![png](output_19_0.png)
+
+
+Ok, we got very high results - few explainations why
+- Data is very big (over 8k rows) correspond to only 4 different classes
+- Books are very different (Drama, Learning Book, History and Hamlet)
+- Style of writing is very difference between this books
+
+Best model based on our data: Logistic Regression - over 94% (pretty good :))
+
+
+```python
+
+```
