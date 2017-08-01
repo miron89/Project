@@ -337,7 +337,7 @@ hamletText = '.'.join(text1)
 #model1.save('model1.h5')
 ```
 
-![png](Capture.png)
+![png](Capture.PNG)
 
 
 ```python
@@ -350,7 +350,7 @@ dreamerText = '.'.join(text2)
 #model2.save('model2.h5')
 ```
 
-![png](Capture2.png)
+![png](Capture2.PNG)
 
 
 ```python
@@ -363,7 +363,7 @@ historyText = '.'.join(text3)
 #model3.save('model3.h5')
 ```
 
-![png](Capture3.png)
+![png](Capture3.PNG)
 
 
 ```python
@@ -376,7 +376,7 @@ pythonText = '.'.join(text4)
 #model4.save('model4.h5')
 ```
 
-![png](Capture4.png)
+![png](Capture4.PNG)
 
 
 Project Conclusions:
