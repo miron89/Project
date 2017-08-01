@@ -337,6 +337,8 @@ hamletText = '.'.join(text1)
 #model1.save('model1.h5')
 ```
 
+![png](Capture.png)
+
 
 ```python
 df_book2=df_Dreamer[0]
@@ -347,6 +349,8 @@ text2 = generateText(model2,book2)
 dreamerText = '.'.join(text2)
 #model2.save('model2.h5')
 ```
+
+![png](Capture2.png)
 
 
 ```python
@@ -359,6 +363,8 @@ historyText = '.'.join(text3)
 #model3.save('model3.h5')
 ```
 
+![png](Capture3.png)
+
 
 ```python
 df_book4=df_Python[0]
@@ -369,6 +375,8 @@ text4 = generateText(model4,book4)
 pythonText = '.'.join(text4)
 #model4.save('model4.h5')
 ```
+
+![png](Capture4.png)
 
 
 Project Conclusions:
