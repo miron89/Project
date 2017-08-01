@@ -383,7 +383,8 @@ Project Conclusions:
 The books project was very learning - we build different prediction models and predict the correct class with amazing accuracy.
 The second part of the project was very problematic for books - since they are very long and contains a lot of data.
 In order to build each model (we did 4) it took the computer over 3 hours and we experienced lots of memory exceptions
-through this project - each model was around 2gb.
+through this project - each model was around 2gb so we could only deal with one model on the VM this is why we picture the
+generated text.
 
 few cons of the Keras generation process:
 the model tends to generate same patterns of words and generate the same two words over and over again
@@ -391,8 +392,3 @@ we tried different tweeks in order to deal with this pattern problem but without
 looking very bad.
 
 Thank you
-
-
-```python
-
-```
