@@ -378,6 +378,42 @@ pythonText = '.'.join(text4)
 
 ![png](Capture4.PNG)
 
+Now we can use our classifiers on the new generated text:
+
+```python
+df1 = pd.DataFrame(np.array(text1))
+df2= pd.DataFrame(np.array(text2))
+df3= pd.DataFrame(np.array(text3))
+df4= pd.DataFrame(np.array(text4))
+result = pd.concat([df1,df2,df3,df4])
+```
+
+```python
+from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.linear_model import LogisticRegression
+vectorizer = CountVectorizer(analyzer = "word",
+                             tokenizer = None,
+                             preprocessor = None,
+                             stop_words = None,
+                             max_features = 5000)
+train_data_features = vectorizer.fit_transform(result)
+train_data_features = train_data_features.toarray()
+#split to train and test
+np.random.seed(123)
+x = np.random.rand(len(df[0])) < 0.8
+train_x = train_data_features[x]
+test_x = train_data_features[~x]
+train_y = df.loc[x, 1]
+test_y = df.loc[~x, 1]
+#Logistic Regression Model
+reg = LogisticRegression()
+reg.fit(train_x, train_y)
+regScore = reg.score(test_x, test_y)
+print("LogisticRegression: {}".format(regScore))
+```
+LogisticRegression: 87.54829154519
+
+Our prediction model is still very accurate - so we can conclude that the generated text was no far from the original
 
 Project Conclusions:
 The books project was very learning - we build different prediction models and predict the correct class with amazing accuracy.
